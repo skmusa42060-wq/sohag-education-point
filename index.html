@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sohag Education Point</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f1f5f9;color:#172033}
+header{background:#123b70;color:white;padding:25px 15px;text-align:center}
+header h1{margin:0;font-size:25px}
+header p{margin-bottom:0}
+nav{display:flex;flex-wrap:wrap;justify-content:center;background:#092c55}
+nav button{border:0;background:none;color:white;padding:13px 15px;font-size:14px}
+.container{max-width:750px;margin:20px auto;padding:12px}
+.card{background:white;padding:20px;border-radius:12px;margin-bottom:15px;box-shadow:0 2px 9px #0001}
+h2{color:#123b70}
+.action{background:#1265bd;color:white;border:0;padding:12px 18px;border-radius:7px;margin:5px;cursor:pointer}
+input,textarea,select{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:7px;font-size:16px}
+.option{display:block;padding:12px;background:#edf3fa;margin:8px 0;border-radius:7px;cursor:pointer}
+footer{text-align:center;background:#123b70;color:white;padding:20px;margin-top:30px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+
+<header>
+<h1>📚 Sohag Education Point</h1>
+<p>শিক্ষাই জাতির মেরুদণ্ড</p>
+<p>Online Education • MCQ Exam • Study Materials</p>
+</header>
+
+<nav>
+<button onclick="show('home')">হোম</button>
+<button onclick="show('exam')">MCQ পরীক্ষা</button>
+<button onclick="show('notes')">স্টাডি নোট</button>
+<button onclick="show('result')">ফলাফল</button>
+<button onclick="show('admin')">অ্যাডমিন</button>
+</nav>
+
+<div class="container">
+
+<section id="home">
+<div class="card">
+<h2>স্বাগতম!</h2>
+<p>Sohag Education Point-এ আপনাকে স্বাগতম। এখানে শিক্ষার্থীরা অনলাইনে পড়াশোনা ও MCQ পরীক্ষা দিতে পারবে।</p>
+<button class="action" onclick="show('exam')">পরীক্ষা শুরু করুন</button>
+</div>
+<div class="card">
+<h2>আমাদের বিভাগ</h2>
+<p>📘 বাংলা</p>
+<p>📗 English</p>
+<p>📙 গণিত</p>
+<p>📕 সাধারণ জ্ঞান</p>
+<p>💻 ICT</p>
+</div>
+</section>
+
+<section id="exam" class="hidden">
+<div class="card">
+<h2>📝 MCQ পরীক্ষা</h2>
+<div id="quiz"></div>
+<button class="action" onclick="nextQuestion()">পরবর্তী প্রশ্ন</button>
+<button class="action" onclick="finishQuiz()">পরীক্ষা শেষ</button>
+<p id="score"></p>
+</div>
+</section>
+
+<section id="notes" class="hidden">
+<div class="card">
+<h2>📚 পড়াশোনার নোট</h2>
+<h3>বাংলা</h3>
+<p>সমাস: পরস্পর অর্থসম্বন্ধযুক্ত দুই বা ততোধিক পদের একপদে পরিণত হওয়াকে সমাস বলে।</p>
+<h3>English</h3>
+<p>Noun: A noun is the name of a person, place, thing or idea.</p>
+<h3>ICT</h3>
+<p>ICT এর পূর্ণরূপ Information and Communication Technology.</p>
+<h3>গণিত</h3>
+<p>শতকরা = (নির্দিষ্ট অংশ ÷ মোট পরিমাণ) × ১০০</p>
+</div>
+</section>
+
+<section id="result" class="hidden">
+<div class="card">
+<h2>🏆 পরীক্ষার ফলাফল</h2>
+<p id="lastResult">এখনো কোনো পরীক্ষা দেওয়া হয়নি।</p>
+</div>
+</section>
+
+<section id="admin" class="hidden">
+<div class="card">
+<h2>🔐 Admin Panel</h2>
+<p>অ্যাডমিন পাসওয়ার্ড দিন</p>
+<input type="password" id="password" placeholder="Password">
+<button class="action" onclick="login()">Login</button>
+<div id="adminArea" class="hidden">
+<h3>নতুন MCQ যোগ করুন</h3>
+<input id="question" placeholder="প্রশ্ন লিখুন">
+<input id="a" placeholder="অপশন A">
+<input id="b" placeholder="অপশন B">
+<input id="c" placeholder="অপশন C">
+<input id="d" placeholder="অপশন D">
+<select id="correct">
+<option value="0">সঠিক উত্তর A</option>
+<option value="1">সঠিক উত্তর B</option>
+<option value="2">সঠিক উত্তর C</option>
+<option value="3">সঠিক উত্তর D</option>
+</select>
+<button class="action" onclick="addQuestion()">প্রশ্ন যোগ করুন</button>
+<p id="adminMessage"></p>
+</div>
+</div>
+</section>
+
+</div>
+
+<footer>
+<h3>Sohag Education Point</h3>
+<p>শিক্ষার আলো ছড়িয়ে পড়ুক সবার মাঝে।</p>
+<p>© 2026 All Rights Reserved</p>
+</footer>
+
+<script>
+let questions = [
+{q:"বাংলা বর্ণমালায় স্বরবর্ণ কয়টি?",o:["১০টি","১১টি","১২টি","১৩টি"],a:1},
+{q:"ICT এর পূর্ণরূপ কী?",o:["Information and Communication Technology","Internet Computer Technology","International Communication","Information Computer Training"],a:0},
+{q:"বাংলাদেশের রাজধানী কোনটি?",o:["চট্টগ্রাম","খুলনা","ঢাকা","বরিশাল"],a:2},
+{q:"2 + 5 × 2 = কত?",o:["১৪","১২","১০","৯"],a:0},
+{q:"Noun কাকে বলে?",o:["কাজ","নামবাচক শব্দ","গুণ","অবস্থা"],a:1}
+];
+
+let index=0, selected=null, marks=0, answers=[];
+
+function show(id){
+document.querySelectorAll('.container section').forEach(s=>s.classList.add('hidden'));
+document.getElementById(id).classList.remove('hidden');
+if(id==='exam') loadQuestion();
+}
+
+function loadQuestion(){
+if(index>=questions.length){return;}
+selected=null;
+let q=questions[index];
+document.getElementById('quiz').innerHTML=
+"<h3>প্রশ্ন "+(index+1)+"/"+questions.length+"</h3><h3>"+q.q+"</h3>"+
+q.o.map((v,i)=>'<label class="option"><input type="radio" name="answer" value="'+i+'" style="width:auto"> '+v+'</label>').join("");
+}
+
+function nextQuestion(){
+let choice=document.querySelector('input[name="answer"]:checked');
+if(!choice){alert("একটি উত্তর নির্বাচন করুন");return;}
+answers[index]=Number(choice.value);
+index++;
+if(index<questions.length){loadQuestion();}
+else{finishQuiz();}
+}
+
+function finishQuiz(){
+if(index===0){alert("আগে পরীক্ষা শুরু করুন");return;}
+marks=0;
+answers.forEach((v,i)=>{if(v===questions[i].a)marks++;});
+let result="আপনার নম্বর: "+marks+" / "+questions.length;
+document.getElementById('score').innerText=result;
+document.getElementById('lastResult').innerText=result;
+document.getElementById('quiz').innerHTML="<h3>পরীক্ষা সম্পন্ন হয়েছে!</h3>";
+document.getElementById('score').innerText=result;
+index=0;
+answers=[];
+}
+
+function login(){
+if(document.getElementById('password').value==="sohag123"){
+document.getElementById('adminArea').classList.remove('hidden');
+alert("Admin login সফল!");
+}else{alert("ভুল পাসওয়ার্ড!");}
+}
+
+function addQuestion(){
+let q=document.getElementById('question').value;
+let o=['a','b','c','d'].map(x=>document.getElementById(x).value);
+if(!q||o.some(x=>!x)){alert("সব ঘর পূরণ করুন");return;}
+questions.push({q:q,o:o,a:Number(document.getElementById('correct').value)});
+document.getElementById('adminMessage').innerText="প্রশ্ন যোগ হয়েছে!";
+document.getElementById('question').value="";
+['a','b','c','d'].forEach(x=>document.getElementById(x).value="");
+}
+</script>
+</body>
+</html>
