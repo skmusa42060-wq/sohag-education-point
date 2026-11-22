@@ -122,6 +122,143 @@ footer{text-align:center;background:#123b70;color:white;padding:20px;margin-top:
 </footer>
 
 <script>
+  const questions = [
+
+{
+q: "লজিক গেট কী?",
+o: ["ইনপুট ও আউটপুটের মধ্যে যৌক্তিক সম্পর্ক স্থাপনকারী সার্কিট",
+"একটি মেমোরি",
+"একটি প্রসেসর",
+"একটি সফটওয়্যার"],
+a: 0
+},
+
+{
+q: "মৌলিক লজিক গেট কয়টি?",
+o: ["২টি", "৩টি", "৪টি", "৫টি"],
+a: 1
+},
+
+{
+q: "AND গেটের আউটপুট 1 হবে কখন?",
+o: ["যেকোনো একটি ইনপুট 1 হলে",
+"সব ইনপুট 0 হলে",
+"সব ইনপুট 1 হলে",
+"সবসময়"],
+a: 2
+},
+
+{
+q: "OR গেটের আউটপুট 0 হবে কখন?",
+o: ["সব ইনপুট 0 হলে",
+"সব ইনপুট 1 হলে",
+"একটি ইনপুট 1 হলে",
+"কখনো নয়"],
+a: 0
+},
+
+{
+q: "NOT গেটকে কী বলা হয়?",
+o: ["অ্যাডার",
+"ইনভার্টার",
+"এনকোডার",
+"ডিকোডার"],
+a: 1
+},
+
+{
+q: "AND গেটের প্রতীকী বুলিয়ান সমীকরণ কোনটি?",
+o: ["Y = A + B",
+"Y = A.B",
+"Y = A'",
+"Y = A ⊕ B"],
+a: 1
+},
+
+{
+q: "NAND গেট কোন গেটের বিপরীত?",
+o: ["OR",
+"XOR",
+"AND",
+"NOT"],
+a: 2
+},
+
+{
+q: "NOR গেট কোন গেটের বিপরীত?",
+o: ["AND",
+"OR",
+"XOR",
+"XNOR"],
+a: 1
+},
+
+{
+q: "XOR গেটের আউটপুট 1 হয় কখন?",
+o: ["দুটি ইনপুট সমান হলে",
+"দুটি ইনপুট ভিন্ন হলে",
+"দুটি ইনপুট 0 হলে",
+"সবসময়"],
+a: 1
+},
+
+{
+q: "XNOR গেটের আউটপুট 1 হয় কখন?",
+o: ["ইনপুট দুটি ভিন্ন হলে",
+"ইনপুট দুটি সমান হলে",
+"সবসময় 0 হলে",
+"শুধু একটি ইনপুট থাকলে"],
+a: 1
+}
+
+];
+
+const quiz = document.getElementById("quiz");
+
+questions.forEach((q, i) => {
+
+let html = &lt;div class="question"&gt; &lt;p&gt;${i+1}. ${q.q}&lt;/p&gt;;
+
+q.o.forEach((option, j) => {
+html += &lt;label&gt; &lt;input type="radio" name="q${i}" value="${j}"&gt; ${["ক","খ","গ","ঘ"][j]}. ${option} &lt;/label&gt;;
+});
+
+html += </div>;
+quiz.innerHTML += html;
+
+});
+
+function submitQuiz() {
+
+let score = 0;
+let unanswered = 0;
+
+questions.forEach((q, i) => {
+
+const selected = document.querySelector(
+'input[name="q'+i+'"]:checked'
+);
+
+if (!selected) {
+unanswered++;
+} else if (Number(selected.value) === q.a) {
+score++;
+}
+
+});
+
+if (unanswered > 0) {
+alert("সব প্রশ্নের উত্তর দিন। বাকি প্রশ্ন: " + unanswered);
+return;
+}
+
+document.getElementById("result").innerHTML =
+"আপনার ফলাফল: " + score + " / " + questions.length +
+"<br><br>" +
+(score >= 8 ? "অসাধারণ! খুব ভালো করেছেন।" :
+"আরও অনুশীলন করুন।");
+
+}
 let questions = [
 {q:"বাংলা বর্ণমালায় স্বরবর্ণ কয়টি?",o:["১০টি","১১টি","১২টি","১৩টি"],a:1},
 {q:"ICT এর পূর্ণরূপ কী?",o:["Information and Communication Technology","Internet Computer Technology","International Communication","Information Computer Training"],a:0},
